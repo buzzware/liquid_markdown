@@ -10,6 +10,7 @@ module LiquidMarkdown
 
       MARKDOWN_OPTIONS = {hard_wrap: true, autolink: true, filter_html: true, fenced_code_block: true,
                           disable_indented_code_block: true, gh_blockcode: true}
+      LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
 
       def initialize(template, values={})
         @template = template
@@ -27,7 +28,7 @@ module LiquidMarkdown
 
       def liquidize
         template = Liquid::Template.parse(@template)
-        template.render(stringify_keys @values)
+        template.render(stringify_keys(@values), LIQUID_OPTIONS)
       end
 
       # convert key symbols to strings (required for converting values in liquidize render call)
