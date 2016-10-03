@@ -4,7 +4,7 @@ describe LiquidMarkdown::Render::Template do
   subject { described_class }
 
   it 'expect template string on initialize' do
-    expect { subject.new }.to raise_error
+    expect { subject.new }.to raise_error(ArgumentError)
   end
 
   context '.Markdown' do
