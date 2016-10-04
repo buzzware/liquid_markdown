@@ -29,6 +29,11 @@ describe LiquidMarkdown::Render::Template do
       lm = subject.new('Hello {{name}}!', name: 'guest')
       expect(lm.liquidize).to eq('Hello guest!')
     end
+
+    it 'deeply nested hash values should be valid' do
+      lm = subject.new('Hello {{user.profile.info.name}}!', {user: {profile: {info: {name: 'admin'}}}})
+      expect(lm.liquidize).to eq('Hello admin!')
+    end
   end
 
   context '.render' do

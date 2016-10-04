@@ -2,6 +2,8 @@ require 'redcarpet'
 require 'redcarpet/render_strip'
 require 'redcarpet/render_man'
 require 'liquid'
+require 'liquid_markdown/strip'
+require 'liquid_markdown/keys'
 
 module LiquidMarkdown
   module Render
@@ -27,17 +29,20 @@ module LiquidMarkdown
       end
 
       def liquidize
-        template = Liquid::Template.parse(@template)
-        template.render(stringify_keys(@values), LIQUID_OPTIONS)
+        t = Liquid::Template.parse(@template)
+        val = strip_html(@values)
+        val = deep_stringify_keys(val)
+        t.render(val, LIQUID_OPTIONS)
       end
 
-      # convert key symbols to strings (required for converting values in liquidize render call)
-      # Example:
-      # {a: 'b'} => {'a' => 'b'}
-      def stringify_keys(hash)
-        new_hash = {}
-        hash.each {|k, v| new_hash[k.to_s] = v}
-        new_hash
+      private
+
+      def deep_stringify_keys(input_hash)
+        LiquidMarkdown::Keys.deep_stringify_keys(input_hash)
+      end
+
+      def strip_html(input_hash)
+        LiquidMarkdown::Strip.strip_html_values(input_hash)
       end
     end
   end
