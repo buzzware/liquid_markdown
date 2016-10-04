@@ -27,8 +27,8 @@ module LiquidMarkdown
       end
 
       def liquidize
-        template = Liquid::Template.parse(@template)
-        template.render(stringify_keys(@values), LIQUID_OPTIONS)
+        t = Liquid::Template.parse(@template)
+        t.render(stringify_keys(@values), LIQUID_OPTIONS)
       end
 
       # convert key symbols to strings (required for converting values in liquidize render call)
