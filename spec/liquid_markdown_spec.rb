@@ -31,4 +31,11 @@ describe LiquidMarkdown do
     expect(LiquidMarkdown.render(template, {'product' => {'name' => 'Galaxy S7 Edge', 'price' => 1200}}))
         .to eq("<h1>List of products</h1>\n\n<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
   end
+
+  it 'should force strip_html filter for all variables when rendering liquid' do
+    template = 'Strip html content from: {{content}}'
+
+    expect(LiquidMarkdown.render(template, {'content' => '<html><script>alert("hello")</script><style>#alert{padding: 0;}</style><body><p>Content with html tags in it</p></body></html>'}))
+        .to eq("<p>Strip html content from: Content with html tags in it</p>\n")
+  end
 end
