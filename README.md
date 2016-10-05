@@ -1,8 +1,7 @@
 # LiquidMarkdown
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/liquid_markdown`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Combines [Liquid](https://github.com/Shopify/liquid) and [Markdown](https://daringfireball.net/projects/markdown/) templating
+for generic templating and Rails Mailers.
 
 ## Installation
 
@@ -22,7 +21,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+We can compile Liquid templates:
+
+```ruby
+@template = "Hello {{user.profile.name}}!"
+LiquidMarkdown.render(@template, {user: {profile: {name: 'Bob'}}}) # => "Hello Bob!"
+```
+
+We can compile Markdown templates:
+
+```ruby
+@template = "# my first heading"
+LiquidMarkdown.render(@template) # => "<h1>my first heading</h1>"
+```
+
+We can combine both Liquid and Markdown together, Liquid will get compiled first and then Markdown will get compiled
+
+```ruby
+@template = "# Hello {{username | upcase}}
+LiquidMarkdown.render(@template, {username: 'Admin'}) # => "<h1>Hello ADMIN</h1>"
+```
 
 ## Development
 
@@ -32,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/liquid_markdown. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/buzzware/liquid_markdown. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
