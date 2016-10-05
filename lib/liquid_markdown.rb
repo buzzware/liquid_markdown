@@ -7,7 +7,7 @@ require 'liquid_markdown/strip'
 require 'liquid_markdown/keys'
 
 module LiquidMarkdown
-  class Template
+  class Render
     #  setup your html layout layout to wrap around your LiquidMarkdown output
     # layout = "<html><head></head><body>{{yield}}</body></html>"
     attr_reader :template, :values

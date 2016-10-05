@@ -24,22 +24,30 @@ Or install it yourself as:
 We can compile Liquid templates:
 
 ```ruby
-@template = "Hello {{user.profile.name}}!"
-LiquidMarkdown.render(@template, {user: {profile: {name: 'Bob'}}}) # => "Hello Bob!"
+lm = LiquidMarkdown::Render.new("Hello {{user.profile.name}}!", {user: {profile: {name: 'Bob'}}})
+lm.render # => "Hello Bob!"
 ```
 
 We can compile Markdown templates:
 
 ```ruby
-@template = "# my first heading"
-LiquidMarkdown.render(@template) # => "<h1>my first heading</h1>"
+lm = LiquidMarkdown::Render.new("# my first heading") 
+lm.render # => "<h1>my first heading</h1>"
 ```
 
 We can combine both Liquid and Markdown together, Liquid will get compiled first and then Markdown will get compiled
 
 ```ruby
-@template = "# Hello {{username | upcase}}
-LiquidMarkdown.render(@template, {username: 'Admin'}) # => "<h1>Hello ADMIN</h1>"
+lm = LiquidMarkdown::Render.new("# Hello {{username | upcase}}", {username: 'Admin'})
+lm.render # => "<h1>Hello ADMIN</h1>"
+```
+
+We can also setup layout options to wrap result within that layout. use `{{yield}}` block in your template where we can render output.
+
+```ruby
+lm = LiquidMarkdown::Render.new("# Hello {{username | upcase}}", {username: 'Admin'})
+lm.layout = "<html><head></head><body>{{yield}}</body></html>"
+lm.render # => "<html><head></head><body><h1>Hello ADMIN</h1></body></html>"
 ```
 
 ## Development

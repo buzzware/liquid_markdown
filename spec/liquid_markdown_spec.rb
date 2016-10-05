@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LiquidMarkdown::Template do
+describe LiquidMarkdown::Render do
   subject { described_class }
 
   it 'has a version number' do
