@@ -58,4 +58,9 @@ module LiquidMarkdown
       LiquidMarkdown::Strip.strip_html_values(input_hash)
     end
   end
+
+  # let's use ActionMailer and ActionView for rendering mailer templates
+  # ActionMailer::Base.prepend_view_path(LiquidMarkdown::Render.new)
+  # ActionView::Template.register_template_handler(:md, ActionMailer::Markdown::TemplateHandler::HTML)
+  # ActionView::Template.register_template_handler(:mdt, ActionMailer::Markdown::TemplateHandler::Text)
 end
