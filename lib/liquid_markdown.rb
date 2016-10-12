@@ -1,22 +1,26 @@
 require 'liquid_markdown/version'
 require 'kramdown'
 require 'liquid'
+require 'action_view'
+require 'action_mailer'
 require 'liquid_markdown/strip'
 require 'liquid_markdown/keys'
+require 'liquid_markdown/template_handler'
 
 module LiquidMarkdown
   class Render
     #  setup your html layout layout to wrap around your LiquidMarkdown output
     # layout = "<html><head></head><body>{{yield}}</body></html>"
-    attr_reader :template, :values
+    attr_reader :template, :values, :default_format
     attr_writer :layout
 
     MARKDOWN_OPTIONS = {auto_ids: false, parse_block_html: true}
     LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
 
-    def initialize(template, values={})
+    def initialize(template, values={}, format=:html)
       @template = template
       @values = values
+      @default_format = format
     end
 
     def render
@@ -57,6 +61,5 @@ module LiquidMarkdown
 
   # let's use ActionMailer and ActionView for rendering mailer templates
   # ActionMailer::Base.prepend_view_path(LiquidMarkdown::Render.new)
-  # ActionView::Template.register_template_handler(:md, ActionMailer::Markdown::TemplateHandler::HTML)
   # ActionView::Template.register_template_handler(:mdt, ActionMailer::Markdown::TemplateHandler::Text)
 end
