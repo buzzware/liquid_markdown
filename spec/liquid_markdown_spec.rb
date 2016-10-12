@@ -37,20 +37,25 @@ describe LiquidMarkdown::Render do
     template = '### h3 tag
   I love {{fruit.name}}!'
 
-    output = "<h3>h3 tag</h3>\n\n<p>I love Orange!</p>\n"
+    output = "<h3>h3 tag</h3>\n<p>I love Orange!</p>\n"
     lm = subject.new(template, {'fruit' => {'name' => 'Orange'}})
 
     expect(lm.render).to eq(output)
   end
 
   it 'should be able to combine html and markdown together' do
-    template = '# first heading
+    template = '
+# first heading
+*bold*
+_underline_
+<span>inline html</span>
+<div>
+inline block level element
+</div>
 '
-    template += '*bold*'
-    template += '<div>Hello World</div>'
     lm = subject.new(template)
 
-    expect(lm.render).to eq("<h1>first heading</h1>\n\n<p><em>bold</em><div>Hello World</div></p>\n")
+    expect(lm.render).to eq("\n<h1>first heading</h1>\n<p><em>bold</em>\n<em>underline</em>\n<span>inline html</span></p>\n<div>\n  <p>inline block level element</p>\n</div>\n")
   end
 
   it 'should be able to combine html, markdown and liquid together' do
@@ -60,7 +65,7 @@ describe LiquidMarkdown::Render do
     lm = subject.new(template, {'product' => {'name' => 'Galaxy S7 Edge', 'price' => 1200}})
 
     expect(lm.render)
-        .to eq("<h1>List of products</h1>\n\n<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
+        .to eq("<h1>List of products</h1>\n<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
   end
 
   it 'should force strip_html filter for all variables when rendering liquid' do

@@ -1,7 +1,5 @@
 require 'liquid_markdown/version'
-require 'redcarpet'
-require 'redcarpet/render_strip'
-require 'redcarpet/render_man'
+require 'kramdown'
 require 'liquid'
 require 'liquid_markdown/strip'
 require 'liquid_markdown/keys'
@@ -13,8 +11,7 @@ module LiquidMarkdown
     attr_reader :template, :values
     attr_writer :layout
 
-    MARKDOWN_OPTIONS = {hard_wrap: true, autolink: true, filter_html: true, fenced_code_block: true,
-                        disable_indented_code_block: true, gh_blockcode: true}
+    MARKDOWN_OPTIONS = {auto_ids: false, parse_block_html: true}
     LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
 
     def initialize(template, values={})
@@ -28,8 +25,7 @@ module LiquidMarkdown
     end
 
     def markdown(template_value)
-      m = Redcarpet::Markdown.new(Redcarpet::Render::HTML, MARKDOWN_OPTIONS)
-      m.render(template_value)
+      Kramdown::Document.new(template_value, MARKDOWN_OPTIONS).to_html
     end
 
     def liquidize
