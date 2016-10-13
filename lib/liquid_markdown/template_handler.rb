@@ -1,29 +1,3 @@
-# module LiquidMarkdown
-#   module TemplateHandler
-#     class Text
-#       def self.text_handler
-#         @@text_handler ||= ActionView::Template.register_template_handler(:liqmdt)
-#       end
-#
-#       def self.call(template)
-#         compiled_source = text_handler.call(template)
-#         "LiquidMarkdown::Render.new(begin;#{compiled_source};end)"
-#       end
-#     end
-#
-#     class HTML
-#       def self.html_handler
-#         @@_handler ||= ActionView::Template.register_template_handler(:liqmd)
-#       end
-#
-#       def self.call(template)
-#         compiled_source = html_handler.call(template)
-#         "LiquidMarkdown::Render.new(begin;#{compiled_source};end)"
-#       end
-#     end
-#   end
-# end
-
 module LiquidMarkdown
   module TemplateHandler
     UNDERSCORE = "_".freeze
@@ -32,7 +6,7 @@ module LiquidMarkdown
     def self.render(template, context, format)
       variables = expand_variables(template, extract_variables(context))
       source = template.rstrip % variables
-      ActionMailer::Markdown.public_send(format, source)
+      LiquidMarkdown.public_send(format, source)
     end
 
     def self.expand_variables(template, variables)

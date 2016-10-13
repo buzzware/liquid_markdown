@@ -1,11 +1,15 @@
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
     FORMAT_TO_EXTENSION = {
-        text: :mdt,
-        html: :md
+        text: :liqmdt,
+        html: :liqmd
     }
 
-    def find_templates(name, prefix, _partial, contents, outside_app_allowed = false)
+    def find_templates(name, prefix, _partial, details, outside_app_allowed = false)
+      # contents = find_contents(name, prefix, details)
+      contents = details
+      return [] unless contents
+
       %i[html text].map do |format|
         identifier = "#{prefix}##{name} (#{format})"
         path = virtual_path(name, prefix)
