@@ -48,20 +48,4 @@ module LiquidMarkdown
       LiquidMarkdown::Strip.strip_html_values(input_hash)
     end
   end
-
-  class << self
-    # Set markdown renderer
-    attr_accessor :processor, :default_processor
-  end
-
-  self.default_processor -> template, values { Render.new(template, values)}
-  self.processor = default_processor
-
-  def self.html(template, values={})
-    processor.call(template, values)
-  end
-
-  def self.text(template, values={})
-    Renderer::Text.extract(template, values)
-  end
 end

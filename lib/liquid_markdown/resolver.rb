@@ -5,17 +5,6 @@ module LiquidMarkdown
         html: :liqmd
     }
 
-    def find_templates(name, prefix, _partial, details, outside_app_allowed = false)
-      contents = find_contents(name, prefix, details)
-      return [] unless contents
-
-      %i[html text].map do |format|
-        identifier = "#{prefix}##{name} (#{format})"
-        path = virtual_path(name, prefix)
-        build_template(path, contents, identifier, format)
-      end
-    end
-
     def build_template(path, contents, identifier, format)
       ActionView::Template.new(
           contents,
