@@ -6,8 +6,7 @@ module LiquidMarkdown
     }
 
     def find_templates(name, prefix, _partial, details, outside_app_allowed = false)
-      # contents = find_contents(name, prefix, details)
-      contents = details
+      contents = find_contents(name, prefix, details)
       return [] unless contents
 
       %i[html text].map do |format|
@@ -33,6 +32,18 @@ module LiquidMarkdown
 
     def virtual_path(name, prefix)
       "#{prefix}/#{name}"
+    end
+
+    def translations
+      I18n.backend.initialize unless I18n.backend.initialized?
+      I18n.backend.send(:translations)
+    end
+
+    def find_contents(name, prefix, details)
+      [details[:locale].try(:first) || I18n.locale, prefix, name, :body]
+          .reduce(translations) do |buffer, key|
+        buffer && buffer[key.to_sym]
+      end
     end
   end
 end
