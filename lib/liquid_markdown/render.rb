@@ -13,9 +13,11 @@ module LiquidMarkdown
       @values = values
     end
 
-    def render
+    def render(type=:html)
       rendered_content = markdown(liquidize)
-      insert_into_template(rendered_content)
+      content = insert_into_template(rendered_content)
+      content = strip_html(content) if type == :text
+      content
     end
 
     def markdown(template_value)
@@ -44,8 +46,12 @@ module LiquidMarkdown
       LiquidMarkdown::Keys.deep_stringify_keys(input_hash)
     end
 
-    def strip_html(input_hash)
-      LiquidMarkdown::Strip.strip_html_values(input_hash)
+    def strip_html(input)
+      if input.is_a?(Hash) or input.is_a?(Array)
+        LiquidMarkdown::Strip.strip_html_values(input)
+      else
+        LiquidMarkdown::Strip.strip_html(input)
+      end
     end
   end
 end

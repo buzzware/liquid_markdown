@@ -14,7 +14,11 @@ module LiquidMarkdown
 
     def self.strip_html(input)
       empty = ''.freeze
-      input.to_s.gsub(/<script.*?<\/script>/m, empty).gsub(/<!--.*?-->/m, empty).gsub(/<style.*?<\/style>/m, empty).gsub(/<.*?>/m, empty)
+      input.to_s
+          .gsub(/<script.*?<\/script>/m, empty)
+          .gsub(/<!--.*?-->/m, empty)
+          .gsub(/<style.*?<\/style>/m, empty)
+          .gsub(/<.*?>/m, empty)
     end
   end
 end
