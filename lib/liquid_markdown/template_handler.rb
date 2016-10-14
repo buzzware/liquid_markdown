@@ -1,19 +1,12 @@
 module LiquidMarkdown
   module TemplateHandler
-    class Text
-      def self.call(template)
-        %[
-          LiquidMarkdown::TemplateHandler.render.new(#{template.source.inspect}, self, :text)
-        ]
-      end
+    def self.erb_handler
+      @@erb_handler ||= ActionView::Template.registered_template_handler(:erb)
     end
 
-    class HTML
-      def self.call(template)
-        %[
-          LiquidMarkdown::TemplateHandler.render.new(#{template.source.inspect}, self, :html)
-        ]
-      end
+    def self.call(template)
+      compiled_source = erb_handler.call(template)
+      "begin;#{compiled_source};end)"
     end
   end
 end
