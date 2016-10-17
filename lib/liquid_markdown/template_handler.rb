@@ -31,8 +31,11 @@ module LiquidMarkdown
     end
 
     def self.call(template)
-      format = template.formats.include?(:html) ? 'html' : 'text'
-      "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, #{format.to_sym})"
+      if template.formats.must_include?(:html)
+        "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :html)"
+      else
+        "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :text)"
+      end
     end
   end
 end
