@@ -30,16 +30,9 @@ module LiquidMarkdown
       end
     end
 
-    class Text
-      def self.call(template)
-        "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :text)"
-      end
-    end
-
-    class HTML
-      def self.call(template)
-        "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :html)"
-      end
+    def self.call(template)
+      format = template.formats.include?(:html) ? :html : :text
+      "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, #{format})"
     end
   end
 end
