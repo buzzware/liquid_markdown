@@ -15,17 +15,19 @@ module LiquidMarkdown
 
     def render(type=:text)
       rendered_content = markdown(liquidize)
+      content = ''
+
       if type == :html
-        # content = strip_html(content)
-        @content = ''
+        content = insert_into_template(rendered_content.to_html)
       else
-        @content = insert_into_template(rendered_content)
+        content =  rendered_content.convert_to_text
       end
-      @content
+
+      content
     end
 
     def markdown(template_value)
-      Kramdown::Document.new(template_value, MARKDOWN_OPTIONS).to_html
+      Kramdown::Document.new(template_value, MARKDOWN_OPTIONS)
     end
 
     def liquidize
