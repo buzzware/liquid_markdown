@@ -8,7 +8,7 @@ module LiquidMarkdown
       liquid_variables = variables[:lmVariables]
       layout = variables[:lmLayout]
       lm = LiquidMarkdown::Render.new(template, liquid_variables)
-      lm.layout = layout
+      lm.layout = layout unless layout.nil?
       lm.send(format)
     end
 
