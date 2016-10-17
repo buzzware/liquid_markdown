@@ -12,4 +12,6 @@ module LiquidMarkdown
   require 'liquid_markdown/template_handler'
 end
 
-ActionView::Template.register_template_handler :liqmd, LiquidMarkdown::TemplateHandler
+# ActionView::Template.register_template_handler :liqmd, LiquidMarkdown::TemplateHandler
+ActionView::Template.register_template_handler(:liqmd, LiquidMarkdown::TemplateHandler::HTML)
+ActionView::Template.register_template_handler(:liqmdt, LiquidMarkdown::TemplateHandler::Text)
