@@ -13,16 +13,13 @@ module LiquidMarkdown
       @values = values
     end
 
-    def render(type=:text)
+    def render(type=:html)
       rendered_content = markdown(liquidize)
-      content = ''
-
       if type == :html
         content = insert_into_template(rendered_content.to_html)
       else
-        content =  rendered_content.convert_to_text
+        content =  rendered_content.to_plain_text
       end
-
       content
     end
 
