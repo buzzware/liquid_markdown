@@ -5,11 +5,13 @@ module LiquidMarkdown
 
     def self.render(template, context, format)
       variables = expand_variables(template, extract_variables(context))
-      liquid_variables = variables[:lmVariables]
-      layout = variables[:lmLayout]
+      liquid_variables = stringify(variables)
       lm = LiquidMarkdown::Render.new(template, liquid_variables)
-      lm.layout = layout unless layout.nil?
       lm.send(format)
+    end
+
+    def self.stringify(variables)
+      LiquidMarkdown::Keys.deep_stringify_keys(variables)
     end
 
     def self.expand_variables(template, variables)
