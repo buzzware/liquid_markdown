@@ -21,6 +21,41 @@ Or install it yourself as:
 
 ## Usage
 
+You can use `liquid_markdown` in your mailer with `.liqmd` file extension
+
+```ruby
+# app/mailers/user_mailer.rb
+class UserMailer < ApplicationMailer
+  def welcome(user)
+    @user = user
+    @lmVariables = @user.values
+
+    mail(to: @user.email, subject: 'liquid markdown layout') do |format|
+        format.html
+        format.text
+    end
+  end
+end
+
+
+# app/views/user_mailer/welcome.liqmd
+
+# Hello Admin
+
+Below are the list of products that you purchased
+
+<ul id="products">
+    <li>
+        <h2>{{ product.name }}</h2>
+        Only {{ product.price | price }}
+    </li>
+</ul>
+
+Thanks
+------
+ABC XYZ
+```
+
 We can compile Liquid templates:
 
 ```ruby
