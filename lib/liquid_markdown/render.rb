@@ -2,15 +2,15 @@ module LiquidMarkdown
   class Render
     #  setup your html layout layout to wrap around your LiquidMarkdown output
     # layout = "<html><head></head><body>{{yield}}</body></html>"
-    attr_reader :template, :values
+    attr_reader :template, :liquid_hash
     attr_writer :layout
 
     MARKDOWN_OPTIONS = {auto_ids: false, parse_block_html: true}
     LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
 
-    def initialize(template, values={})
+    def initialize(template, liquid_hash)
       @template = template
-      @values = values
+      @liquid_hash = liquid_hash
     end
 
     def html
@@ -29,9 +29,8 @@ module LiquidMarkdown
 
     def liquidize
       t = Liquid::Template.parse(@template)
-      val = strip_html(@values)
-      val = deep_stringify_keys(val)
-      t.render(val, LIQUID_OPTIONS)
+      var = strip_html(liquid_hash)
+      t.render(var, LIQUID_OPTIONS)
     end
 
     def insert_into_template(rendered_content)
