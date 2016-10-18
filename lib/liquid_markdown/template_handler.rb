@@ -31,16 +31,11 @@ module LiquidMarkdown
     end
 
     class LIQMD
-      def self.erb_handler
-        @@erb_handler ||= ActionView::Template.registered_template_handler(:erb)
-      end
-
-      def self.call(template)
-        compiled_source = erb_handler.call(template)
+     def self.call(template)
         if template.formats.include?(:html)
-          "LiquidMarkdown::TemplateHandler.render(#{compiled_source}, self, :html)"
+          "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :html)"
         else
-          "LiquidMarkdown::TemplateHandler.render(#{compiled_source}, self, :text)"
+          "LiquidMarkdown::TemplateHandler.render(#{template.source.inspect}, self, :text)"
         end
       end
     end
