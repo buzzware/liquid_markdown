@@ -44,10 +44,6 @@ module LiquidMarkdown
 
     private
 
-    def deep_stringify_keys(input_hash)
-      LiquidMarkdown::Keys.deep_stringify_keys(input_hash)
-    end
-
     def strip_html(input)
       if input.is_a?(Hash) or input.is_a?(Array)
         LiquidMarkdown::Strip.strip_html_values(input)
