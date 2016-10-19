@@ -28,7 +28,7 @@ module LiquidMarkdown
     end
 
     def liquidize
-      t = Liquid::Template.parse(@template)
+      t = Liquid::Template.parse(@template, global_filters: ['strip_html'])
       var = strip_html(liquid_hash)
       t.render(var, LIQUID_OPTIONS)
     end
