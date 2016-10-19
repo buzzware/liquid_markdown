@@ -29,7 +29,6 @@ module LiquidMarkdown
 
     def liquidize
       t = Liquid::Template.parse(@template, global_filters: ['strip_html'])
-      var = strip_html(liquid_hash)
       t.render(var, LIQUID_OPTIONS)
     end
 
@@ -40,16 +39,6 @@ module LiquidMarkdown
 
     def layout
       @layout ||= ''
-    end
-
-    private
-
-    def strip_html(input)
-      if input.is_a?(Hash) or input.is_a?(Array)
-        LiquidMarkdown::Strip.strip_html_values(input)
-      else
-        LiquidMarkdown::Strip.strip_html(input)
-      end
     end
   end
 end
