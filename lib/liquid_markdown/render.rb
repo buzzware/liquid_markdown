@@ -8,7 +8,7 @@ module LiquidMarkdown
     MARKDOWN_OPTIONS = {auto_ids: false, parse_block_html: true}
     LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
 
-    def initialize(template, liquid_hash)
+    def initialize(template, liquid_hash={})
       @template = template
       @liquid_hash = liquid_hash
     end
@@ -29,7 +29,7 @@ module LiquidMarkdown
 
     def liquidize
       t = Liquid::Template.parse(@template, global_filters: ['strip_html'])
-      t.render(var, LIQUID_OPTIONS)
+      t.render(@liquid_hash, LIQUID_OPTIONS)
     end
 
     def insert_into_template(rendered_content)

@@ -21,16 +21,6 @@ describe LiquidMarkdown::Render do
       lm = subject.new('Hello {{name}}!', 'name' => 'guest')
       expect(lm.liquidize).to eq('Hello guest!')
     end
-
-    it 'hash values should be valid' do
-      lm = subject.new('Hello {{name}}!', name: 'guest')
-      expect(lm.liquidize).to eq('Hello guest!')
-    end
-
-    it 'deeply nested hash values should be valid' do
-      lm = subject.new('Hello {{user.profile.info.name}}!', {user: {profile: {info: {name: 'admin'}}}})
-      expect(lm.liquidize).to eq('Hello admin!')
-    end
   end
 
   it 'should convert into LiquidMarkdown syntax' do
@@ -40,7 +30,7 @@ describe LiquidMarkdown::Render do
     output = "<h3>h3 tag</h3>\n<p>I love Orange!</p>\n"
     lm = subject.new(template, {'fruit' => {'name' => 'Orange'}})
 
-    expect(lm.render).to eq(output)
+    expect(lm.html).to eq(output)
   end
 
   it 'should be able to combine html and markdown together' do
@@ -55,7 +45,7 @@ inline block level element
 '
     lm = subject.new(template)
 
-    expect(lm.render).to eq("\n<h1>first heading</h1>\n<p><em>bold</em>\n<em>underline</em>\n<span>inline html</span></p>\n<div>\n  <p>inline block level element</p>\n</div>\n")
+    expect(lm.html).to eq("\n<h1>first heading</h1>\n<p><em>bold</em>\n<em>underline</em>\n<span>inline html</span></p>\n<div>\n  <p>inline block level element</p>\n</div>\n")
   end
 
   it 'should be able to combine html, markdown and liquid together' do
@@ -64,7 +54,7 @@ inline block level element
     template += '<ul id="products"><li><h2>{{ product.name }}</h2>Only {{ product.price | price }}</li></ul>'
     lm = subject.new(template, {'product' => {'name' => 'Galaxy S7 Edge', 'price' => 1200}})
 
-    expect(lm.render)
+    expect(lm.html)
         .to eq("<h1>List of products</h1>\n<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
   end
 
@@ -72,7 +62,7 @@ inline block level element
     template = 'Strip html content from: {{content}}'
     lm = subject.new(template, {'content' => '<html><script>alert("hello")</script><style>#alert{padding: 0;}</style><body><p>Content with html tags in it</p></body></html>'})
 
-    expect(lm.render)
+    expect(lm.html)
         .to eq("<p>Strip html content from: Content with html tags in it</p>\n")
   end
 
@@ -94,14 +84,14 @@ inline block level element
 
     it 'should render default layout if no layout configured' do
       lm = subject.new(template, values)
-      expect(lm.render).to eq("<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
+      expect(lm.html).to eq("<ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n")
     end
 
     it 'should wrap output within layout' do
       lm = subject.new(template, values)
       lm.layout = layout
 
-      expect(lm.render).to eq("<html><head></head><body><ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n</body></html>")
+      expect(lm.html).to eq("<html><head></head><body><ul id=\"products\"><li><h2>Galaxy S7 Edge</h2>Only 1200</li></ul>\n</body></html>")
     end
   end
 end
