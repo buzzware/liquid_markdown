@@ -6,6 +6,8 @@ module LiquidMarkdown
 
   require 'liquid_markdown/core_ext/hash/keys'
   require 'liquid_markdown/core_ext/string/strip'
+  require 'liquid_markdown/liquid/liquid_methods'
+
   require 'liquid_markdown/filters/text_filter'
   require 'liquid_markdown/converter/plain_text'
 
