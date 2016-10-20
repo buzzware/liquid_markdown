@@ -3,11 +3,10 @@ class String
   #
   #  string = "<hello>threre</hello>"
   #
-  #  string.strip_html => "there"
-  def strip_html
+  #  string.strip_html_tags => "there"
+  def strip_html_tags
     empty = ''.freeze
-    input.to_s
-        .gsub(/<script.*?<\/script>/m, empty)
+    self.gsub(/<script.*?<\/script>/m, empty)
         .gsub(/<!--.*?-->/m, empty)
         .gsub(/<style.*?<\/style>/m, empty)
         .gsub(/<.*?>/m, empty)
