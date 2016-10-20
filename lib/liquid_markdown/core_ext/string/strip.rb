@@ -6,7 +6,8 @@ class String
   #  string.strip_html_tags => "there"
   def strip_html_tags
     empty = ''.freeze
-    self.gsub(/<script.*?<\/script>/m, empty)
+    self.to_s
+        .gsub(/<script.*?<\/script>/m, empty)
         .gsub(/<!--.*?-->/m, empty)
         .gsub(/<style.*?<\/style>/m, empty)
         .gsub(/<.*?>/m, empty)

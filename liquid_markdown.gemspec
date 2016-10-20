@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'kramdown'
-  spec.add_dependency 'liquid'
+  spec.add_dependency 'liquid', '~> 4.0.0.rc3'
   spec.add_dependency 'actionmailer'
   spec.add_dependency 'actionview'
 

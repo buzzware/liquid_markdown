@@ -2,15 +2,16 @@ module LiquidMarkdown
   class Render
     #  setup your html layout layout to wrap around your LiquidMarkdown output
     # layout = "<html><head></head><body>{{yield}}</body></html>"
-    attr_reader :template, :liquid_hash
+    attr_reader :template, :liquid_hash, :global_filter_proc
     attr_writer :layout
-
-    MARKDOWN_OPTIONS = {auto_ids: false, parse_block_html: true}
-    LIQUID_OPTIONS = {strict_filters: true, strict_variables: true}
+    attr_accessor :markdown_settings, :liquid_settings
 
     def initialize(template, liquid_hash={})
       @template = template
       @liquid_hash = liquid_hash
+      @markdown_settings = {auto_ids: false, parse_block_html: true}
+      @liquid_settings = {strict_filters: true, strict_variables: true}
+      @global_filter_proc = ->(output) { output.is_a?(String) ? output.strip_html_tags : output }
     end
 
     def html
@@ -24,12 +25,12 @@ module LiquidMarkdown
     end
 
     def markdown(template_value)
-      Kramdown::Document.new(template_value, MARKDOWN_OPTIONS)
+      Kramdown::Document.new(template_value, @markdown_settings)
     end
 
     def liquidize
-      t = Liquid::Template.parse(@template, global_filters: ['strip_html'])
-      t.render(@liquid_hash, LIQUID_OPTIONS)
+      Liquid::Template.parse(@template)
+          .render(@liquid_hash, @liquid_settings, global_filter: @global_filter_proc)
     end
 
     def insert_into_template(rendered_content)
