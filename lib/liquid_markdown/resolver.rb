@@ -31,13 +31,6 @@ module LiquidMarkdown
       end
     end
 
-    # Instantiate Resolver by passing a model (decoupled from ORMs)
-    def self.using(model, options={})
-      @@model = model
-      @@resolver_options = options
-      self.instance
-    end
-
     private
 
     # Initialize an ActionView::Template object based on the record found.

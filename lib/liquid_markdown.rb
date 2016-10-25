@@ -17,6 +17,5 @@ module LiquidMarkdown
   require 'liquid_markdown/resolver'
 end
 
-ActionMailer::Base.prepend_view_path(LiquidMarkdown::Resolver.new)
 ActionView::Template.register_template_handler :liqmd, LiquidMarkdown::TemplateHandler::LIQMD
 Liquid::Template.register_filter(TextFilter)
