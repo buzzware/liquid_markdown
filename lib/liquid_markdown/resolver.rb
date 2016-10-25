@@ -11,8 +11,14 @@ end
 
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
-    require "singleton"
+    require 'singleton'
     include Singleton
+
+    def self.using(model, options={})
+      @@model = model
+      @@resolver_options = options
+      self.instance
+    end
 
     def find_templates(name, prefix, _partial, details)
       contents = find_contents(name, prefix, details)
