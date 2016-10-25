@@ -1,5 +1,19 @@
+require 'panoramic'
+require 'panoramic/orm/active_record'
+
+module Panoramic
+  module Orm
+    def resolver(options={})
+      LiquidMarkdown::Resolver.using self, options
+    end
+  end
+end
+
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
+    require "singleton"
+    include Singleton
+
     def find_templates(name, prefix, _partial, details)
       contents = find_contents(name, prefix, details)
       return [] unless contents
