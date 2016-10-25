@@ -24,9 +24,9 @@ module LiquidMarkdown
           :partial => partial || false
       }
 
-      record = @@model.find_model_templates(conditions).first
 
-      [:html, :text].each do |format|
+      %i[html text].map do |format|
+        record = @@model.find_model_templates(conditions).first
         initialize_template(record, format)
       end
     end
@@ -36,11 +36,11 @@ module LiquidMarkdown
     # Initialize an ActionView::Template object based on the record found.
     def initialize_template(record, format)
       source = record.body
-      identifier = "#{record.class} - #{record.id} - #{record.path.inspect}"
+      identifier = "#{record.class} - #{record.id} - #{record.path.inspect} - #{format}"
       handler = ActionView::Template.registered_template_handler(record.handler)
 
       details = {
-          :format => Mime[format],
+          :format => format,
           :updated_at => record.updated_at,
           :virtual_path => virtual_path(record.path, record.partial)
       }
