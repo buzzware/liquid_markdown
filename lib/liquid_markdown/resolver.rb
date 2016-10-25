@@ -1,14 +1,6 @@
 require 'panoramic'
 require 'panoramic/orm/active_record'
 
-module Panoramic
-  module Orm
-    def resolver(options={})
-      LiquidMarkdown::Resolver.using self, options
-    end
-  end
-end
-
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
     require 'singleton'
@@ -20,34 +12,67 @@ module LiquidMarkdown
       self.instance
     end
 
-    def find_templates(name, prefix, _partial, details)
-      contents = find_contents(name, prefix, details)
-      return [] unless contents
+    # this method is mandatory to implement a Resolver
+    def find_templates(name, prefix, partial, details, key=nil, locals=[])
+      return [] if @@resolver_options[:only] && !@@resolver_options[:only].include?(prefix)
 
-      %i[html text].map do |format|
-        identifier = "#{prefix}##{name} (#{format})"
-        path = virtual_path(name, prefix)
-        build_template(path, contents, identifier, format)
+      conditions = {
+          :path    => build_path(name, prefix),
+          :locale  => [normalize_array(details[:locale]).first, nil],
+          :format  => normalize_array(details[:formats]),
+          :handler => normalize_array(details[:handlers]),
+          :partial => partial || false
+      }
+
+      record = @@model.find_model_templates(conditions).first
+
+      [:html, :text].each do |format|
+        initialize_template(record, format)
       end
     end
 
-    def build_template(path, contents, identifier, format)
-      handler = ActionView::Template.registered_template_handler(:liqmd)
-
-      ActionView::Template.new(
-          contents,
-          identifier,
-          handler,
-          virtual_path: path, format: format
-      )
+    # Instantiate Resolver by passing a model (decoupled from ORMs)
+    def self.using(model, options={})
+      @@model = model
+      @@resolver_options = options
+      self.instance
     end
 
-    def virtual_path(name, prefix)
-      "#{prefix}/#{name}"
+    private
+
+    # Initialize an ActionView::Template object based on the record found.
+    def initialize_template(record, format)
+      source = record.body
+      identifier = "#{record.class} - #{record.id} - #{record.path.inspect}"
+      handler = ActionView::Template.registered_template_handler(record.handler)
+
+      details = {
+          :format => Mime[format],
+          :updated_at => record.updated_at,
+          :virtual_path => virtual_path(record.path, record.partial)
+      }
+
+      ActionView::Template.new(source, identifier, handler, details)
     end
 
-    def find_contents(name, prefix, details)
+    # Build path with eventual prefix
+    def build_path(name, prefix)
+      prefix.present? ? "#{prefix}/#{name}" : name
+    end
 
+    # Normalize array by converting all symbols to strings.
+    def normalize_array(array)
+      array.map(&:to_s)
+    end
+
+    # returns a path depending if its a partial or template
+    def virtual_path(path, partial)
+      return path unless partial
+      if index = path.rindex("/")
+        path.insert(index + 1, "_")
+      else
+        "_#{path}"
+      end
     end
   end
 end
