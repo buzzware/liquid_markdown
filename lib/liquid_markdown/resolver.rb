@@ -1,16 +1,9 @@
-require 'panoramic'
 require 'panoramic/orm/active_record'
 
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
-    require 'singleton'
+    require "singleton"
     include Singleton
-
-    def self.using(model, options={})
-      @@model = model
-      @@resolver_options = options
-      self.instance
-    end
 
     # this method is mandatory to implement a Resolver
     def find_templates(name, prefix, partial, details, key=nil, locals=[])
@@ -24,11 +17,18 @@ module LiquidMarkdown
           :partial => partial || false
       }
 
-
-      %i[html text].map do |format|
-        record = @@model.find_model_templates(conditions).first
-        initialize_template(record, format)
+      @@model.find_model_templates(conditions).map do |record|
+        # [:html, :text].map { |format| initialize_template(record, format)}
+        # ["html", "text"].map { |format| initialize_template(record, format) }
+        initialize_template(record, 'html')
       end
+    end
+
+    # Instantiate Resolver by passing a model (decoupled from ORMs)
+    def self.using(model, options={})
+      @@model = model
+      @@resolver_options = options
+      self.instance
     end
 
     private
@@ -36,11 +36,11 @@ module LiquidMarkdown
     # Initialize an ActionView::Template object based on the record found.
     def initialize_template(record, format)
       source = record.body
-      identifier = "#{record.class} - #{record.id} - #{record.path.inspect} - #{format}"
+      identifier = "#{record.class} - #{record.id} - #{record.path.inspect} (#{format})"
       handler = ActionView::Template.registered_template_handler(record.handler)
 
       details = {
-          :format => format,
+          :format => Mime[format],
           :updated_at => record.updated_at,
           :virtual_path => virtual_path(record.path, record.partial)
       }
