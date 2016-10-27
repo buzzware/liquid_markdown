@@ -2,7 +2,7 @@ require 'panoramic/orm/active_record'
 
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
-    require "singleton"
+    require 'singleton'
     include Singleton
 
     # this method is mandatory to implement a Resolver
