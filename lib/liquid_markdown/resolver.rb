@@ -10,17 +10,29 @@ module LiquidMarkdown
       return [] if @@resolver_options[:only] && !@@resolver_options[:only].include?(prefix)
 
       conditions = {
-          :path    => build_path(name, prefix),
-          :locale  => [normalize_array(details[:locale]).first, nil],
-          :format  => normalize_array(details[:formats]),
+          :path => build_path(name, prefix),
+          :locale => [normalize_array(details[:locale]).first, nil],
+          :format => normalize_array(details[:formats]),
           :handler => normalize_array(details[:handlers]),
           :partial => partial || false
       }
 
+      @records = []
       @@model.find_model_templates(conditions).map do |record|
-        # [:html, :text].map { |format| initialize_template(record, format)}
-        # ["html", "text"].map { |format| initialize_template(record, format) }
-        initialize_template(record, 'html')
+        @records << record
+        if record.format == 'html'
+          rec = OpenStruct.new(record.attributes)
+          rec.format = 'text'
+          @records << rec
+        else
+          rec = OpenStruct.new(record.attributes)
+          rec.format = 'html'
+          @records << rec
+        end
+      end
+
+      @records.map do |record|
+        initialize_template(record, record.format)
       end
     end
 
