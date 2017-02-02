@@ -56,33 +56,35 @@ Thanks
 ABC XYZ
 ```
 
-We can compile Liquid templates:
+We can compile Liquid templates manually using `html` to convert into html format and `text` to convert into plain text.
 
 ```ruby
 lm = LiquidMarkdown::Render.new("Hello {{user.profile.name}}!", {user: {profile: {name: 'Bob'}}})
-lm.render # => "Hello Bob!"
+lm.html # => "<p>Hello Bob!</p>"
+lm.text # => "Hello Bob!"
 ```
-
-We can compile Markdown templates:
 
 ```ruby
 lm = LiquidMarkdown::Render.new("# my first heading") 
-lm.render # => "<h1>my first heading</h1>"
+lm.html # => "<h1>my first heading</h1>"
+lm.text # => "my first heading"
 ```
 
 We can combine both Liquid and Markdown together, Liquid will get compiled first and then Markdown will get compiled
 
 ```ruby
 lm = LiquidMarkdown::Render.new("# Hello {{username | upcase}}", {username: 'Admin'})
-lm.render # => "<h1>Hello ADMIN</h1>"
+lm.html # => "<h1>Hello ADMIN</h1>"
+lm.text # => "Hello ADMIN"
 ```
 
+## Depricated (need to remove this)
 We can also setup layout options to wrap result within that layout. use `{{yield}}` block in your template where we can render output.
 
 ```ruby
 lm = LiquidMarkdown::Render.new("# Hello {{username | upcase}}", {username: 'Admin'})
 lm.layout = "<html><head></head><body>{{yield}}</body></html>"
-lm.render # => "<html><head></head><body><h1>Hello ADMIN</h1></body></html>"
+lm.html # => "<html><head></head><body><h1>Hello ADMIN</h1></body></html>"
 ```
 
 ## Development
