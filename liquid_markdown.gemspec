@@ -27,14 +27,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'kramdown'
-  spec.add_dependency 'liquid', '~> 4.0.0.rc3'
-  spec.add_dependency 'actionmailer'
-  spec.add_dependency 'actionview'
+  spec.add_runtime_dependency 'kramdown', '~> 1.12', '>= 1.12.0'
+  spec.add_dependency 'liquid', '~> 4.0', '>= 4.0.0'
+  spec.add_dependency 'actionmailer', '>= 4.0'
+  spec.add_dependency 'actionview', '>= 4.0'
+  spec.add_dependency 'panoramic', '~> 0.0.6'
 
   spec.add_development_dependency 'bundler', '~> 1.12'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'pry-meta'
-  spec.add_development_dependency 'panoramic'
+  spec.add_development_dependency 'pry-meta', '~> 0.0.10'
 end
