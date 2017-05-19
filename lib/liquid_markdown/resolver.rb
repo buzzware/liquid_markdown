@@ -17,11 +17,16 @@ module LiquidMarkdown
           :partial => partial || false
       }
 
-      @@model.find_model_templates(conditions).map do |record|
+      templates = @@model.find_model_templates(conditions).to_a
+      result = []
+      result += templates.map do |record|
         # [:html, :text].map { |format| initialize_template(record, format)}
-        # ["html", "text"].map { |format| initialize_template(record, format) }
-        initialize_template(record, 'html')
-      end
+	      ["html", "text"].map { |format|
+		      initialize_template(record, format)
+	      }
+        #initialize_template(record, 'html')
+      end.flatten
+	    result
     end
 
     # Instantiate Resolver by passing a model (decoupled from ORMs)
