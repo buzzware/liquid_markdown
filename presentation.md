@@ -1,3 +1,6 @@
+theme: Next, 0
+build-lists: true
+
 # [fit] liquid_markdown gem 
 ## by Buzzware
 <br>
