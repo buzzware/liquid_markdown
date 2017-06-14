@@ -1,6 +1,7 @@
-# [fit] liquid_markdown gem by Buzzware
-
-## simple, logical, customer-editable templates for pages and emails
+# [fit] liquid_markdown gem 
+## by Buzzware
+<br>
+##simple, logical, customer-editable templates for pages and emails
 
 ---
 # liquid_markdown solves all these problems at once :
@@ -64,11 +65,10 @@
 ---
 # Thankyou to the gem authors
 
-See https://github.com/buzzware/liquid_markdown 
-
-and 
-
-https://rubygems.org/gems/liquid_markdown
+* https://github.com/buzzware/liquid_markdown 
+* https://rubygems.org/gems/liquid_markdown
 
 
 ## Happy to give access and credit for any contributions in documentation, features, fixes, examples
+
+This presentation was written in markdown and is in the github repo above. It was rendered and played by Deskset for Mac.
