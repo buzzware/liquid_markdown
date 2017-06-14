@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Gary McGhee']
   spec.email         = ['gary@buzzware.com.au']
 
-  spec.summary       = %q{Combines Liquid and Markdown templating for generic templating and Rails Mailers}
+  spec.summary       = %q{Combines Liquid and Markdown templating for safe customer-editable pages and emails. Also supports templates from the database}
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/buzzware/liquid_markdown'
   spec.license       = 'MIT'
