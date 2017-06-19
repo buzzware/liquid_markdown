@@ -136,15 +136,6 @@ lm.html # => "<h1>Hello ADMIN</h1>"
 lm.text # => "Hello ADMIN"
 ```
 
-## Depricated (need to remove this)
-We can also setup layout options to wrap result within that layout. use `{{yield}}` block in your template where we can render output.
-
-```ruby
-lm = LiquidMarkdown::Render.new("# Hello {{username | upcase}}", {username: 'Admin'})
-lm.layout = "<html><head></head><body>{{yield}}</body></html>"
-lm.html # => "<html><head></head><body><h1>Hello ADMIN</h1></body></html>"
-```
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
