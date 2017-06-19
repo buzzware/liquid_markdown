@@ -10,7 +10,7 @@ for generic templating and Rails Mailers.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'liquid_markdown', '~> 0.2.1'
+gem 'liquid_markdown', '~> 0.2.2'
 # If you want to use database template
 gem 'panoramic'
 ```
