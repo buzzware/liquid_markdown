@@ -14,7 +14,7 @@ module LiquidMarkdown
   require 'liquid_markdown/version'
   require 'liquid_markdown/template_handler'
   require 'liquid_markdown/render'
-  require 'liquid_markdown/resolver'
+  # require 'liquid_markdown/resolver' # don't automatically require this, as it requires panoramic - leave that for users to require themselves
 end
 
 ActionView::Template.register_template_handler :liqmd, LiquidMarkdown::TemplateHandler::LIQMD
