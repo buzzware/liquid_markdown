@@ -42,8 +42,9 @@ class UserMailer < ApplicationMailer
     end
   end
 end
+```
 
-
+```html
 # app/views/user_mailer/welcome.liqmd
 
 # Hello Admin
@@ -69,7 +70,6 @@ Please read full documentation in [Panoramic](https://github.com/andreapavoni/pa
 * Add following line to your `Gemfile`
 
 ```
-# Gemfile
 gem 'panoramic'
 ```
 
@@ -87,6 +87,7 @@ class TemplateStorage < ActiveRecord::Base
     LiquidMarkdown::Resolver.using self, options
   end
 end
+```
 
 Now you can use `liqmd` handler in your `TemplateStorage`
 
@@ -98,8 +99,6 @@ TemplateStorage.create(
   handler: 'liqmd',
   format: 'html'
 )
-```
-
 ```
 
 * Now you can use `resolver` in your mailer
