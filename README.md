@@ -93,7 +93,7 @@ TemplateStorage.create(
 )
 ```
 
-* To user Panoramic resolver in your mailer
+* To use Panoramic resolver in your mailer
 
 ```ruby
 class UserMailer < ActionMailer::Base
@@ -112,7 +112,9 @@ class UserMailer < ActionMailer::Base
 end
 ```
 
-We can compile Liquid templates manually using `html` to convert into html format and `text` to convert into plain text.
+## Manually
+
+We can compile Liquid templates into **html** and **plain text** version.
 
 ```ruby
 lm = LiquidMarkdown::Render.new("Hello {{user.profile.name}}!", {user: {profile: {name: 'Bob'}}})
