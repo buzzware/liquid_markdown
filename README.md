@@ -2,8 +2,10 @@
 
 # LiquidMarkdown
 
-Combines [Liquid](https://github.com/Shopify/liquid) and [Markdown](https://daringfireball.net/projects/markdown/) templating
-for generic templating and Rails Mailers.
+* Combines [Liquid](https://github.com/Shopify/liquid) and extended Markdown (via [Kramdown](https://github.com/gettalong/kramdown)) for customer-safe templating of Rails pages and emails
+* Integrates with Panoramic to add ActiveRecord database storage of templates for editing
+* Generates both plain text and html parts of an email from a single template (replacing other markdown email gems)
+* Supports html layouts for emails (unlike other markdown email gems)
 
 ## Installation
 
@@ -80,7 +82,7 @@ lm.html # => "<h1>Hello ADMIN</h1>"
 lm.text # => "Hello ADMIN"
 ```
 
-## Depricated (need to remove this)
+## Deprecated (need to remove this)
 We can also setup layout options to wrap result within that layout. use `{{yield}}` block in your template where we can render output.
 
 ```ruby
@@ -99,6 +101,13 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/buzzware/liquid_markdown. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+## Credits
+
+* https://github.com/Shopify/liquid
+* https://github.com/gettalong/kramdown
+* https://github.com/andreapavoni/panoramic
+* https://github.com/schneems/maildown
+* https://github.com/fnando/actionmailer-markdown
 
 ## License
 
