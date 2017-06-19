@@ -32,35 +32,27 @@ You can use `liquid_markdown` in your mailer with `.liqmd` file extension
 ```ruby
 # app/mailers/user_mailer.rb
 class UserMailer < ApplicationMailer
-  def welcome(user)
+  def confirmation(user)
     @user = user
-    @lmVariables = @user.values
 
     mail(to: @user.email, subject: 'liquid markdown layout') do |format|
-        format.html
-        format.text
+      format.html
+      format.text
     end
   end
 end
 ```
 
 ```html
-# app/views/user_mailer/welcome.liqmd
+# app/views/user_mailer/confirmation.liqmd
 
-# Hello Admin
+# Hello {{user.email}},
 
-Below are the list of products that you purchased
-
-<ul id="products">
-    <li>
-        <h2>{{ product.name }}</h2>
-        Only {{ product.price | price }}
-    </li>
-</ul>
+You are now subscribed to our daily newsletter.
 
 Thanks
 ------
-ABC XYZ
+ABC Org.
 ```
 
 ### Using `panoramic` for database template
@@ -89,7 +81,7 @@ class TemplateStorage < ActiveRecord::Base
 end
 ```
 
-Now you can use `liqmd` handler in your `TemplateStorage`
+Use `liqmd` handler in your `TemplateStorage`
 
 ```ruby
 TemplateStorage.create(
@@ -101,7 +93,7 @@ TemplateStorage.create(
 )
 ```
 
-* Now you can use `resolver` in your mailer
+* To user Panoramic resolver in your mailer
 
 ```ruby
 class UserMailer < ActionMailer::Base
