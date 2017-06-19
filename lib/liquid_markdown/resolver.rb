@@ -1,5 +1,3 @@
-require 'panoramic/orm/active_record'
-
 module LiquidMarkdown
   class Resolver < ActionView::Resolver
     require 'singleton'

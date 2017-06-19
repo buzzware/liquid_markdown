@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/liquid_markdown.svg)](https://badge.fury.io/rb/liquid_markdown)
+
 # LiquidMarkdown
 
 Combines [Liquid](https://github.com/Shopify/liquid) and [Markdown](https://daringfireball.net/projects/markdown/) templating
