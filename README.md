@@ -10,7 +10,9 @@ for generic templating and Rails Mailers.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'liquid_markdown'
+gem 'liquid_markdown', '~> 0.2.1'
+# If you want to use database template
+gem 'panoramic'
 ```
 
 And then execute:
@@ -24,6 +26,8 @@ Or install it yourself as:
 ## Usage
 
 You can use `liquid_markdown` in your mailer with `.liqmd` file extension
+
+### Using Rails mailer and view template
 
 ```ruby
 # app/mailers/user_mailer.rb
@@ -56,6 +60,65 @@ Below are the list of products that you purchased
 Thanks
 ------
 ABC XYZ
+```
+
+### Using `panoramic` for database template
+
+Please read full documentation in [Panoramic](https://github.com/andreapavoni/panoramic/blob/master/README.md)
+
+* Add following line to your `Gemfile`
+
+```
+# Gemfile
+gem 'panoramic'
+```
+
+* Your model should have the following fields: `body:text`, `path:string`,
+`locale:string`, `handler:string`, `partial:boolean`, `format:string`
+
+* Add below line to your Model
+
+```ruby
+class TemplateStorage < ActiveRecord::Base
+  store_templates
+
+  # required lines for liquid_markdown
+  def self.resolver(options={})
+    LiquidMarkdown::Resolver.using self, options
+  end
+end
+
+Now you can use `liqmd` handler in your `TemplateStorage`
+
+```ruby
+TemplateStorage.create(
+  body: "# Hello {{user.email}}, \n\n You have successfully subscribed to our
+  daily newsletter.",
+  path: 'user_mailer/confirmation',
+  handler: 'liqmd',
+  format: 'html'
+)
+```
+
+```
+
+* Now you can use `resolver` in your mailer
+
+```ruby
+class UserMailer < ActionMailer::Base
+  prepend_view_path TemplateStorage.resolver
+
+  def confirmation(user)
+    @user = user
+
+    mail(
+      from: "someone@example.com",
+      to: @user.email,
+      subject: "Confirmation Link",
+      template_name: @user.template_name
+    )
+  end
+end
 ```
 
 We can compile Liquid templates manually using `html` to convert into html format and `text` to convert into plain text.
