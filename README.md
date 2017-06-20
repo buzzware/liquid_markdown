@@ -73,10 +73,12 @@ gem 'panoramic'
 * Add below line to your Model
 
 ```ruby
+require 'liquid_markdown/resolver' # required
+
 class TemplateStorage < ActiveRecord::Base
   store_templates
 
-  # required lines for liquid_markdown
+  # required
   def self.resolver(options={})
     LiquidMarkdown::Resolver.using self, options
   end
